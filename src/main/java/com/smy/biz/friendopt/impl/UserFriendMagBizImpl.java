@@ -74,11 +74,18 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
     }
 
     @Override
-    public Boolean deleteFriend(long user_id, long rec_user) {
+    public boolean deleteFriend(long user_id, long rec_user) {
         Long Rel_1= user_agree.isExistRelation(user_id,rec_user);
         Long Rel_2= user_agree.isExistRelation(user_id,rec_user);
-
-
-        return null;
+        if(Rel_1!=null&&Rel_2!=null){
+            boolean effo=user_agree.deleteUserAgreeById(Rel_1);
+            boolean effo1=user_agree.deleteUserAgreeById(Rel_2);
+            if(effo&&effo1)
+                return true;
+            else
+                return false;
+        }else{
+            return false;
+        }
     }
 }

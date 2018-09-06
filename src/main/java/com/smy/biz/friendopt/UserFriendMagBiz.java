@@ -40,6 +40,6 @@ public interface UserFriendMagBiz {
       * @Pramers:      rec_user   指定删除用户
       * @return:       返回类型
      */
-    public Boolean deleteFriend(long user_id, long rec_user);
+    public boolean deleteFriend(long user_id, long rec_user);
 
 }
