@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- 配置连接数据库的基本信息 -->
+    <!--mysql驱动-->
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/socialmodel</property>
+
+    <!-- 配置 Hibernate 的基本信息 -->
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    <!-- 指定自动生成数据表的策略 -->
+    <property name="hbm2ddl.auto">update</property>
+    <mapping class="com.smy.model.BaseUsers"/>
+    <mapping class="com.smy.model.SysSetting"/>
+    <mapping class="com.smy.model.UserAgree"/>
+    <mapping class="com.smy.model.UserComments"/>
+    <mapping class="com.smy.model.UserDynMsg"/>
+    <mapping class="com.smy.model.UserFriends"/>
+    <mapping class="com.smy.model.UserTimeStamp"/>
+
+
+  </session-factory>
+</hibernate-configuration>
