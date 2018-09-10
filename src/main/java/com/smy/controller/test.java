@@ -83,10 +83,10 @@ public class test {
      */
     @RequestMapping("/deletefriend.html")
     public void deleteFriend(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        String agree_id=request.getParameter("agree_id");
-        String type=request.getParameter("type");
-        boolean effo=user_friend.addFriendRequestProcess(Long.valueOf(agree_id),Integer.valueOf(type));
-        Dto.printMsg(response, "申请记录："+agree_id+"的结果:"+effo);
+        String user_id=request.getParameter("user_id");
+        String rec_user=request.getParameter("rec_user");
+        boolean effo=user_friend.deleteFriend(Long.valueOf(user_id),Long.valueOf(rec_user));
+        Dto.printMsg(response, "删除好友结果："+effo);
     }
 
 

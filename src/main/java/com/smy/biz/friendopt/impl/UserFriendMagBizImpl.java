@@ -79,6 +79,7 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
 
     @Override
     public boolean updateFriendSetting(UserFriends userFriends) {
+        //待定
         return false;
     }
 
@@ -100,21 +101,40 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
         Long Rel_1= user_agree.isExistRelation(user_id,rec_user);
         Long Rel_2= user_agree.isExistRelation(rec_user,user_id);
         if(Rel_1!=null&&Rel_2!=null){
-            //删除好友申请记录
-            boolean effo=user_agree.deleteUserAgreeById(Rel_1);
-            boolean effo1=user_agree.deleteUserAgreeById(Rel_2);
+            //1、删除好友申请记录
+            boolean ug1=user_agree.deleteUserAgreeById(Rel_1);
+            boolean ug2=user_agree.deleteUserAgreeById(Rel_2);
 
-            //删除好友关系
+            //查询好友关系是否存在
             Long Fd1=this.getFriendRelsId(user_id,rec_user);
             Long Fd2=this.getFriendRelsId(user_id,rec_user);
 
-
-            if(effo&&effo1)
-                return true;
-            else
+            if(ug1&&ug2){
+                if(Fd1!=null&&Fd2!=null){
+                    //删除好友关系
+                    boolean fd1=deleteSingleFriend(Fd1);
+                    boolean fd2=deleteSingleFriend(Fd2);
+                    //触发朋友圈时间轴  删除好友动态
+                    if(fd1&&fd2){
+                        return true;
+                    }else{
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        return false;
+                    }
+                }else{
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return false;
+                }
+            }else {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return false;
+            }
         }else{
             return false;
         }
+    }
+
+    private boolean deleteSingleFriend(long friend_id){
+        return dao.delObjectById(UserFriends.class,friend_id);
     }
 }
