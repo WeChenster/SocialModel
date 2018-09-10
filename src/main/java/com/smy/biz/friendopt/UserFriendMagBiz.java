@@ -19,7 +19,7 @@ public interface UserFriendMagBiz {
     public boolean addNewFriends(UserAgree userAgree);
 
     /**
-      * @Description:  java 方法作用
+      * @Description:  同意好友请求操作
       * @Pramers:      agree_id   好友请求消息ID
       * @Pramers:      type   处理类型（同意）
       * @return:       返回类型
@@ -42,4 +42,11 @@ public interface UserFriendMagBiz {
      */
     public boolean deleteFriend(long user_id, long rec_user);
 
+
+    /**
+      * @Description:  通过用户和好友获取记录id
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
+    public Long getFriendRelsId(long user_id, long rec_user);
 }

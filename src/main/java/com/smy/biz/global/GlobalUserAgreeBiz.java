@@ -1,5 +1,7 @@
 package com.smy.biz.global;
 
+import net.sf.json.JSONObject;
+
 /**
  * @Description: 好友请求表
  * @Author: lwt
@@ -7,6 +9,13 @@ package com.smy.biz.global;
  * @Version: 1.0
  */
 public interface GlobalUserAgreeBiz {
+
+    /**
+      * @Description:  获取用户申请列表
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
+    public JSONObject getUserApplyList(long user_id,int now_page);
 
     /**
       * @Description:  查询是否存在好友关系，如果存在返回返回id

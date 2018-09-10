@@ -6,6 +6,8 @@ import com.smy.model.UserFriends;
 import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import com.zhuoan.util.DateUtils;
+import com.zhuoan.util.TimeUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,18 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
     SSHUtilDao dao;
 
     @Override
+    public JSONObject getUserApplyList(long user_id, int now_page) {
+        JSONObject obj=new JSONObject();
+        int size=15;
+        String sql="select id,user_id,src_id,reason,create_time,friend_from,type from user_agree where user_id=?";
+        Object[] par ={user_id};
+
+        JSONArray array =JSONArray.fromObject(dao.getObjectListBySQL(sql,par,now_page,size));
+        obj.element("code", Dto.ALL_TRUE).element("msg", "获取成功").element("data", array.size()>0?TimeUtil.transTimestamp(array, "create_time", "yyyy-MM-dd HH:mm:ss"):array);;
+        return obj;
+    }
+
+    @Override
     public Long isExistRelation(long user_id, long rec_user) {
         String sql="select id from user_agree where user_id=? and src_id=?";
         Object[] par={user_id,rec_user};
@@ -43,7 +57,6 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
         UserFriends u1=new UserFriends();
         u1.setUserId(user_id);
         u1.setRecUser(rec_user);
-
         u1.setCreateTime(DateUtils.gettimestamp());
         u1.setTop(Dto.ALL_FALSE);
         u1.setMsgNot(Dto.ALL_FALSE);
@@ -51,17 +64,21 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
         u1.setHideMe(Dto.ALL_FALSE);
         u1.setIsBlacklist(Dto.ALL_FALSE);
         Long u1Rs=(Long)dao.saveObject(u1);
-        if(u1Rs!=null){
-            u1.setUserId(rec_user);
-            u1.setRecUser(user_id);
-            Long u2Rs=(Long)dao.saveObject(u1);
-            if(u2Rs!=null){
-                return  true;
-            }else{
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return false;
-            }
+
+        UserFriends u2=new UserFriends();
+        u2.setUserId(rec_user);
+        u2.setRecUser(user_id);
+        u2.setCreateTime(DateUtils.gettimestamp());
+        u2.setTop(Dto.ALL_FALSE);
+        u2.setMsgNot(Dto.ALL_FALSE);
+        u2.setHideHer(Dto.ALL_FALSE);
+        u2.setHideMe(Dto.ALL_FALSE);
+        u2.setIsBlacklist(Dto.ALL_FALSE);
+        Long u2Rs=(Long)dao.saveObject(u2);
+        if(u1Rs!=null&&u2Rs!=null){
+            return  true;
         }else{
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
     }

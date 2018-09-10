@@ -1,11 +1,13 @@
 package com.smy.biz.friendopt.impl;
 
 import com.smy.biz.friendopt.UserFriendMagBiz;
+import com.smy.biz.global.GlobalBaseUsersBiz;
 import com.smy.biz.global.GlobalUserAgreeBiz;
 import com.smy.model.UserAgree;
 import com.smy.model.UserFriends;
 import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -24,17 +26,24 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
     @Resource
     SSHUtilDao dao;
     @Resource
+    GlobalBaseUsersBiz base_users;
+    @Resource
     GlobalUserAgreeBiz user_agree;
 
 
     @Override
     public boolean addNewFriends(UserAgree userAgree) {
-        Long MsgId=(Long)dao.saveObject(userAgree);
+        //查询好友是否存在
+        JSONObject effo=base_users.getUserByIdOrChainAdd(String.valueOf(userAgree.getUserId()));
+        if(!effo.isNullObject()&&effo.containsKey("id")&&!effo.getString("id").equals("null")){
+            Long MsgId=(Long)dao.saveObject(userAgree);
 
-        //TODO:发送消息到被添加的用户,发消息给user_id
-        if(MsgId!=null)
-            return  true;
-        else
+            //TODO:发送消息到被添加的用户,发消息给user_id
+            if(MsgId!=null)
+                return  true;
+            else
+                return false;
+        }else
             return false;
     }
 
@@ -74,12 +83,32 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
     }
 
     @Override
+    public Long getFriendRelsId(long user_id, long rec_user){
+        String sql="select id from user_friends where user_id=? and rec_user=?";
+        Object[] par ={user_id,rec_user};
+        JSONObject obj=JSONObject.fromObject(dao.getObjectBySQL(sql,par));
+        if(!obj.isNullObject()&&obj.containsKey("id")&&!obj.getString("id").equals("null")){
+            return obj.getLong("id");
+        }else{
+            return null;
+        }
+    }
+
+
+    @Override
     public boolean deleteFriend(long user_id, long rec_user) {
         Long Rel_1= user_agree.isExistRelation(user_id,rec_user);
-        Long Rel_2= user_agree.isExistRelation(user_id,rec_user);
+        Long Rel_2= user_agree.isExistRelation(rec_user,user_id);
         if(Rel_1!=null&&Rel_2!=null){
+            //删除好友申请记录
             boolean effo=user_agree.deleteUserAgreeById(Rel_1);
             boolean effo1=user_agree.deleteUserAgreeById(Rel_2);
+
+            //删除好友关系
+            Long Fd1=this.getFriendRelsId(user_id,rec_user);
+            Long Fd2=this.getFriendRelsId(user_id,rec_user);
+
+
             if(effo&&effo1)
                 return true;
             else
