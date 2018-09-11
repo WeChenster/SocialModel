@@ -47,6 +47,6 @@ public interface UserFriendsCircleBiz {
       * @Pramers:      userComments
       * @return:       返回类型
      */
-    public boolean commentUserDynamicMessage(UserComments userComments);
+    public boolean insertCommentUserDynamicMessage(UserComments userComments);
 
 }

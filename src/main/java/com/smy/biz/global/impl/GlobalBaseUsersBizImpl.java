@@ -1,7 +1,9 @@
 package com.smy.biz.global.impl;
 
 import com.smy.biz.global.GlobalBaseUsersBiz;
+import com.zhuoan.ssh.bean.PageUtil;
 import com.zhuoan.ssh.dao.SSHUtilDao;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +35,12 @@ public class GlobalBaseUsersBizImpl implements GlobalBaseUsersBiz {
             JSONObject obj= JSONObject.fromObject(dao.getObjectBySQL(sql,par));
             return obj;
         }
+    }
+
+    @Override
+    public JSONArray getAllUsers() {
+        String sql="select id from base_users";
+        JSONArray array =JSONArray.fromObject(dao.getObjectListBySQL(sql,null,new PageUtil()));
+        return array;
     }
 }

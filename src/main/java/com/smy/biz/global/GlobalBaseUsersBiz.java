@@ -1,5 +1,6 @@
 package com.smy.biz.global;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -16,5 +17,12 @@ public interface GlobalBaseUsersBiz {
       * @return:       返回类型
      */
     public JSONObject getUserByIdOrChainAdd(String user_id);
+
+    /**
+      * @Description:  获取系统所有用户id
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
+    public JSONArray getAllUsers();
 
 }
