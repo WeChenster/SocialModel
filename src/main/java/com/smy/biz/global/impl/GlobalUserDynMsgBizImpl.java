@@ -36,4 +36,11 @@ public class GlobalUserDynMsgBizImpl implements GlobalUserDynMsgBiz {
         UserDynMsg userDynMsg= (UserDynMsg)dao.getObjectById(UserDynMsg.class,msg_id);
         return userDynMsg;
     }
+
+    @Override
+    public boolean updateColumnValue(String column_value, long udmsg_id) {
+        String sql="update user_dyn_msg set ? where id=?";
+        Object[] par={column_value,udmsg_id};
+        return dao.updObjectBySQL(sql,par);
+    }
 }

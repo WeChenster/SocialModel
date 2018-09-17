@@ -18,7 +18,7 @@ public interface GlobalUserAgreeBiz {
     public JSONObject getUserApplyList(long user_id,int now_page);
 
     /**
-      * @Description:  查询是否存在好友关系，如果存在返回返回id
+      * @Description:  系，如果存在返回查询是否存在好友关返回id
       * @Pramers:      user_id  用户id
       * @Pramers:      rec_user  关联用户id
       * @return:       Long
@@ -34,7 +34,7 @@ public interface GlobalUserAgreeBiz {
     public boolean addBuddyAction(long user_id,long rec_user);
 
     /**
-      * @Description:  删除记录
+      * @Description:  删除记录申请记录
       * @Pramers:      agree_id
       * @return:       boolean
      */

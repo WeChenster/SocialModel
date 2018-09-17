@@ -70,12 +70,15 @@ public class Dto {
 	
 	
 	//全局定义
+	public static int FRIENDS_APPLE_TYPE_WAIT=-1;//好友处理类型：等待验证
 	public static int FRIENDS_APPLE_TYPE_ADD=0;//好友处理类型：添加
 	public static int FRIENDS_APPLE_TYPE_ACCEPT=1;//好友处理类型：接受
 	public static int FRIENDS_APPLE_TYPE_ADDED=2;//好友处理类型：已添加
 
-	
-	
+	public static int USER_COMMENT_TYPE_PRAISE=0;//评论表类型：点赞
+	public static int USER_COMMENT_TYPE_COM=1;//评论表类型：评论
+	public static int USER_COMMENT_TYPE_FORWRAD=2;//评论表类型：转发
+
 	
 	//end全局定义
 

@@ -91,4 +91,14 @@ public class test {
 
 
 
+    //-----------------------------朋友圈动态 测试方法--------------------------------
+
+    @RequestMapping("/null.html")
+    public void nullmthed(HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        Dto.printMsg(response, "");
+    }
+
+
+
 }

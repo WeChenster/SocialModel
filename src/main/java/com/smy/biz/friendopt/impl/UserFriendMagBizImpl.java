@@ -38,7 +38,7 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
         if(!effo.isNullObject()&&effo.containsKey("id")&&!effo.getString("id").equals("null")){
             Long MsgId=(Long)dao.saveObject(userAgree);
 
-            //TODO:发送消息到被添加的用户,发消息给user_id
+            //TODO:客户点发送消息到被添加的用户,发消息给user_id
             if(MsgId!=null)
                 return  true;
             else
@@ -62,7 +62,7 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
                 boolean effo1=dao.updObject(useragree);
 
                 if(effo&&effo1){
-                    //TODO:发送消息到被添加的用户：已成为好友可以互相聊天
+                    //TODO:客户端发送消息到被添加的用户：已成为好友可以互相聊天
                     return true;
                 }else{
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -98,34 +98,33 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
 
     @Override
     public boolean deleteFriend(long user_id, long rec_user) {
-        Long Rel_1= user_agree.isExistRelation(user_id,rec_user);
-        Long Rel_2= user_agree.isExistRelation(rec_user,user_id);
-        if(Rel_1!=null&&Rel_2!=null){
+        //查询好友关系是否存在
+        Long Fd1=this.getFriendRelsId(user_id,rec_user);
+        Long Fd2=this.getFriendRelsId(rec_user,user_id);
+
+        if(Fd1!=null&&Fd2!=null){
+            //删除好友关系
+            boolean fd1=deleteSingleFriend(Fd1);
+            boolean fd2=deleteSingleFriend(Fd2);
+
+            //查询还有申请记录
+            Long Rel_1= user_agree.isExistRelation(user_id,rec_user);
+            Long Rel_2= user_agree.isExistRelation(rec_user,user_id);
+            boolean ug1=true;
+            boolean ug2=true;
             //1、删除好友申请记录
-            boolean ug1=user_agree.deleteUserAgreeById(Rel_1);
-            boolean ug2=user_agree.deleteUserAgreeById(Rel_2);
+            if(Rel_1!=null){
+                ug1=user_agree.deleteUserAgreeById(Rel_1);
+            }
+            if(Rel_2!=null){
+                ug2=user_agree.deleteUserAgreeById(Rel_2);
+            }
 
-            //查询好友关系是否存在
-            Long Fd1=this.getFriendRelsId(user_id,rec_user);
-            Long Fd2=this.getFriendRelsId(user_id,rec_user);
+            //TODO:触发朋友圈时间轴  删除好友动态
 
-            if(ug1&&ug2){
-                if(Fd1!=null&&Fd2!=null){
-                    //删除好友关系
-                    boolean fd1=deleteSingleFriend(Fd1);
-                    boolean fd2=deleteSingleFriend(Fd2);
-                    //触发朋友圈时间轴  删除好友动态
-                    if(fd1&&fd2){
-                        return true;
-                    }else{
-                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return false;
-                    }
-                }else{
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    return false;
-                }
-            }else {
+            if(fd1&&fd2&&ug1&&ug2){
+                return true;
+            }else{
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return false;
             }

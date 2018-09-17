@@ -28,7 +28,7 @@ public class GlobalGlobalUserFriendsBizImpl implements GlobalUserFriendsBiz {
     SSHUtilDao dao;
     @Override
     public JSONArray getUserFriendsByUserId(long user_id) {
-        String sql="select rec_user from user_friends where user_id=?";
+        String sql="select rec_user as id from user_friends where user_id=?";
         Object[] par ={user_id};
         JSONArray array=JSONArray.fromObject(dao.getObjectListBySQL(sql,par,new PageUtil()));
         return array;

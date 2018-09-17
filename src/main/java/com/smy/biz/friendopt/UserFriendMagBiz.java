@@ -19,8 +19,8 @@ public interface UserFriendMagBiz {
     public boolean addNewFriends(UserAgree userAgree);
 
     /**
-      * @Description:  同意好友请求操作
-      * @Pramers:      agree_id   好友请求消息ID
+      * @Description:  同意操作
+      * @Pramers:      agree_id   好友请求好友请求消息ID
       * @Pramers:      type   处理类型（同意）
       * @return:       返回类型
      */

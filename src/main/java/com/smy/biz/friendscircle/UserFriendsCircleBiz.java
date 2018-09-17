@@ -17,11 +17,11 @@ public interface UserFriendsCircleBiz {
       * @Pramers:      userDynMsg
       * @return:       返回类型
      */
-    public boolean insertUserDynamicMessage(UserDynMsg userDynMsg);
+    public Long insertUserDynamicMessage(UserDynMsg userDynMsg);
 
     /**
       * @Description:  获取用户的动态列表
-      * @Pramers:      in   {"chain_add":"xxx","now_page":1,"size":10}
+      * @Pramers:      in   {"user_id":"xxx","now_page":1,"size":10}
       * @return:       返回类型
      */
     public JSONObject getMyDynamicMessage(JSONObject in);
@@ -33,6 +33,20 @@ public interface UserFriendsCircleBiz {
       * @return:       返回类型
      */
     public boolean forwardUserDynamicMessage(UserDynMsg userDynMsg);
+
+    /**
+      * @Description:  点赞动态
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
+    public boolean praiseUserDynamicMessage(UserComments userComments);
+
+    /**
+      * @Description:  评论动态
+      * @Pramers:      userComments
+      * @return:       返回类型
+     */
+    public boolean commentUserDynamicMessage(UserComments userComments);
 
     /**
       * @Description:  删除动态

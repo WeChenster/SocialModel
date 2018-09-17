@@ -23,4 +23,13 @@ public interface GlobalUserDynMsgBiz {
       * @return:       返回类型
      */
     public UserDynMsg getUserDynMsgById(Long msg_id);
+
+    /**
+      * @Description:  通过传入column更新value
+      * @Pramers:      column  表列
+      * @Pramers:      value   值
+      * @Pramers:      udmsg_id
+      * @return:       返回类型
+     */
+    public boolean updateColumnValue(String column_value, long udmsg_id);
 }
