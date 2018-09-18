@@ -32,4 +32,11 @@ public interface GlobalUserDynMsgBiz {
       * @return:       返回类型
      */
     public boolean updateColumnValue(String column_value, long udmsg_id);
+
+    /**
+      * @Description:  删除记录
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
+    public boolean deleteLineById(long msg_id);
 }

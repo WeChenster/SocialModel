@@ -15,7 +15,7 @@
     <property name="format_sql">true</property>
     <!-- 指定自动生成数据表的策略 -->
     <property name="hbm2ddl.auto">update</property>
-    <mapping class="com.smy.model.BaseUsers"/>
+      <mapping class="com.smy.model.BaseUsers"/>
     <mapping class="com.smy.model.SysSetting"/>
     <mapping class="com.smy.model.UserAgree"/>
     <mapping class="com.smy.model.UserComments"/>

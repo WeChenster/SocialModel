@@ -53,6 +53,7 @@ public class UserFriendsCircleBizImpl implements UserFriendsCircleBiz {
             userTimeStamp.setUdmsgId(msg_id);
             userTimeStamp.setCreateTime(DateUtils.gettimestamp());
             userTimeStamp.setIsMine(Dto.ALL_TRUE);
+            userTimeStamp.setIdDel(Dto.ALL_FALSE);
             Long uts_id=user_time_stamp.insertLine(userTimeStamp);
 
             if(uts_id!=null){
@@ -74,6 +75,7 @@ public class UserFriendsCircleBizImpl implements UserFriendsCircleBiz {
                     uts.setUdmsgId(msg_id);
                     uts.setCreateTime(DateUtils.gettimestamp());
                     uts.setIsMine(Dto.ALL_FALSE);
+                    uts.setIdDel(Dto.ALL_FALSE);
                     Long uts_id2=user_time_stamp.insertLine(uts);
                     Dto.writeLog("第"+i+"位用户时间轴插入结果："+uts_id2);
                     if(uts_id2==null){
@@ -129,6 +131,7 @@ public class UserFriendsCircleBizImpl implements UserFriendsCircleBiz {
         uc.setUserId(userDynMsg.getUserId());
         uc.setRecUser(0L);
         uc.setType(Dto.USER_COMMENT_TYPE_FORWRAD);
+        uc.setIdDel(Dto.ALL_FALSE);
         uc.setCreateTime(DateUtils.gettimestamp());
 
         Long uc_id=user_comments.insertLines(uc);
@@ -194,7 +197,7 @@ public class UserFriendsCircleBizImpl implements UserFriendsCircleBiz {
     public boolean deleteUserDynamicMessage(long udmsg_id) {
 
         //1、删除广场消息表
-        boolean effo=dao.delObjectById(UserDynMsg.class,udmsg_id);
+        boolean effo=user_dyn_msg.deleteLineById(udmsg_id);
 
         //2、删除朋友圈 时间轴相关消息记录
         boolean effo1=user_time_stamp.deleteByMsgId(udmsg_id);

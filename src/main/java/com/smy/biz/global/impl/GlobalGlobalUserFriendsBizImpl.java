@@ -8,6 +8,7 @@ package com.smy.biz.global.impl;
 
 import com.smy.biz.global.GlobalUserFriendsBiz;
 import com.smy.model.UserFriends;
+import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.bean.PageUtil;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import net.sf.json.JSONArray;
@@ -28,8 +29,8 @@ public class GlobalGlobalUserFriendsBizImpl implements GlobalUserFriendsBiz {
     SSHUtilDao dao;
     @Override
     public JSONArray getUserFriendsByUserId(long user_id) {
-        String sql="select rec_user as id from user_friends where user_id=?";
-        Object[] par ={user_id};
+        String sql="select rec_user as id from user_friends where user_id=? and id_del=?";
+        Object[] par ={user_id, Dto.ALL_FALSE};
         JSONArray array=JSONArray.fromObject(dao.getObjectListBySQL(sql,par,new PageUtil()));
         return array;
     }

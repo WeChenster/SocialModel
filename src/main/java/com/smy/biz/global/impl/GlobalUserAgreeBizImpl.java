@@ -1,7 +1,6 @@
 package com.smy.biz.global.impl;
 
 import com.smy.biz.global.GlobalUserAgreeBiz;
-import com.smy.model.UserAgree;
 import com.smy.model.UserFriends;
 import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
@@ -32,8 +31,8 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
     public JSONObject getUserApplyList(long user_id, int now_page) {
         JSONObject obj=new JSONObject();
         int size=15;
-        String sql="select id,user_id,src_id,reason,create_time,friend_from,type from user_agree where user_id=?";
-        Object[] par ={user_id};
+        String sql="select id,user_id,src_id,reason,create_time,friend_from,type from user_agree where user_id=? and id_del=?";
+        Object[] par ={user_id,Dto.ALL_FALSE};
 
         JSONArray array =JSONArray.fromObject(dao.getObjectListBySQL(sql,par,now_page,size));
         obj.element("code", Dto.ALL_TRUE)
@@ -44,8 +43,8 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
 
     @Override
     public Long isExistRelation(long user_id, long rec_user) {
-        String sql="select id from user_agree where user_id=? and src_id=?";
-        Object[] par={user_id,rec_user};
+        String sql="select id from user_agree where user_id=? and src_id=? and id_del=?";
+        Object[] par={user_id,rec_user,Dto.ALL_FALSE};
         JSONObject agree=JSONObject.fromObject(dao.getObjectBySQL(sql,par));
         if(!agree.isNullObject()&&agree.containsKey("id")&&!agree.getString("id").equals("null")){
             return agree.getLong("id");
@@ -65,6 +64,7 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
         u1.setHideHer(Dto.ALL_FALSE);
         u1.setHideMe(Dto.ALL_FALSE);
         u1.setIsBlacklist(Dto.ALL_FALSE);
+        u1.setIdDel(Dto.ALL_FALSE);
         Long u1Rs=(Long)dao.saveObject(u1);
 
         UserFriends u2=new UserFriends();
@@ -76,6 +76,7 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
         u2.setHideHer(Dto.ALL_FALSE);
         u2.setHideMe(Dto.ALL_FALSE);
         u2.setIsBlacklist(Dto.ALL_FALSE);
+        u2.setIdDel(Dto.ALL_FALSE);
         Long u2Rs=(Long)dao.saveObject(u2);
         if(u1Rs!=null&&u2Rs!=null){
             return  true;
@@ -87,6 +88,8 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
 
     @Override
     public boolean deleteUserAgreeById(long agree_id) {
-        return dao.delObjectById(UserAgree.class,agree_id);
+        String sql="update user_agree set id_del=? where id=?";
+        Object[] par ={Dto.ALL_TRUE,agree_id};
+        return dao.updObjectBySQL(sql,par);
     }
 }

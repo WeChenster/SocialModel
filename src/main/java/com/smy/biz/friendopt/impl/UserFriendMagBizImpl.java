@@ -53,7 +53,7 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
         UserAgree useragree= (UserAgree)dao.getObjectById(UserAgree.class,agree_id);
         if(useragree!=null){
             //判断处理类型
-            if(type==Dto.FRIENDS_APPLE_TYPE_ACCEPT){//同意添加为好友
+            if(type==Dto.FRIENDS_APPLE_TYPE_ACCEPT){//类型为：接受
                 //1、添加好友操作
                 boolean effo=user_agree.addBuddyAction(useragree.getUserId(),useragree.getSrcId());
 
@@ -85,8 +85,8 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
 
     @Override
     public Long getFriendRelsId(long user_id, long rec_user){
-        String sql="select id from user_friends where user_id=? and rec_user=?";
-        Object[] par ={user_id,rec_user};
+        String sql="select id from user_friends where user_id=? and rec_user=? and id_del=?";
+        Object[] par ={user_id,rec_user,Dto.ALL_FALSE};
         JSONObject obj=JSONObject.fromObject(dao.getObjectBySQL(sql,par));
         if(!obj.isNullObject()&&obj.containsKey("id")&&!obj.getString("id").equals("null")){
             return obj.getLong("id");
@@ -133,7 +133,14 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
         }
     }
 
+    /**
+      * @Description:  删除单个好友
+      * @Pramers:      传入参数
+      * @return:       返回类型
+     */
     private boolean deleteSingleFriend(long friend_id){
-        return dao.delObjectById(UserFriends.class,friend_id);
+        String sql="update user_friends set id_del=? where id=?";
+        Object[] par ={Dto.ALL_TRUE,friend_id};
+        return dao.updObjectBySQL(sql,par);
     }
 }

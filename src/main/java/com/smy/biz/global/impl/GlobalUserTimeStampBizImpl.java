@@ -8,6 +8,7 @@ package com.smy.biz.global.impl;
 
 import com.smy.biz.global.GlobalUserTimeStampBiz;
 import com.smy.model.UserTimeStamp;
+import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -36,10 +37,10 @@ public class GlobalUserTimeStampBizImpl implements GlobalUserTimeStampBiz {
     @Override
     public JSONObject getUserTimeStampListByUserId(long user_id, int size, int now_page) {
         JSONObject obj=new JSONObject();
-        String sql="select $ from user_time_stamp where user_id=? order by id desc";
+        String sql="select $ from user_time_stamp where user_id=? and id_del=? order by id desc";
         String countsql=sql.replace("$","count(id)");
         String listsql=sql.replace("$"," id,user_id,udmsg_id,is_mine,create_time ");
-        Object[] par={user_id};
+        Object[] par={user_id, Dto.ALL_FALSE};
         int count =dao.getCount(countsql,par);
         JSONArray array=JSONArray.fromObject(dao.getObjectListBySQL(listsql,par,now_page,size));
 
@@ -52,9 +53,9 @@ public class GlobalUserTimeStampBizImpl implements GlobalUserTimeStampBiz {
 
     @Override
     public boolean deleteByMsgId(long udmsg_id) {
-        String sql ="delete from user_time_stamp where udmsg_id=?";
-        Object[] par={udmsg_id};
-        return dao.delObjectBySQL(sql,par);
+        String sql ="update user_time_stamp set id_del=? where udmsg_id=?";
+        Object[] par={Dto.ALL_TRUE,udmsg_id};
+        return dao.updObjectBySQL(sql,par);
     }
 
 

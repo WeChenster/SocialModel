@@ -2,7 +2,7 @@ package com.smy.model;
 /**
  * @Description: java类作用描述
  * @Author: lwt
- * @CreateDate: 2018/9/4
+ * @CreateDate: 2018/9/17
  * @Version: 1.0
  */
 
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  *@auther:Administrator
- *@Date:2018/9/4
+ *@Date:2018/9/17
  *@descriotion:
  */
 @Entity
@@ -25,6 +25,7 @@ public class UserAgree implements Serializable {
     private Timestamp createTime;
     private String friendFrom;
     private Integer type;
+    private Integer idDel;
     private String memo;
 
     @Id
@@ -99,6 +100,16 @@ public class UserAgree implements Serializable {
     }
 
     @Basic
+    @Column(name = "id_del")
+    public Integer getIdDel() {
+        return idDel;
+    }
+
+    public void setIdDel(Integer idDel) {
+        this.idDel = idDel;
+    }
+
+    @Basic
     @Column(name = "memo")
     public String getMemo() {
         return memo;
@@ -122,6 +133,7 @@ public class UserAgree implements Serializable {
         if (createTime != null ? !createTime.equals(userAgree.createTime) : userAgree.createTime != null) return false;
         if (friendFrom != null ? !friendFrom.equals(userAgree.friendFrom) : userAgree.friendFrom != null) return false;
         if (type != null ? !type.equals(userAgree.type) : userAgree.type != null) return false;
+        if (idDel != null ? !idDel.equals(userAgree.idDel) : userAgree.idDel != null) return false;
         if (memo != null ? !memo.equals(userAgree.memo) : userAgree.memo != null) return false;
 
         return true;
@@ -136,6 +148,7 @@ public class UserAgree implements Serializable {
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (friendFrom != null ? friendFrom.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (idDel != null ? idDel.hashCode() : 0);
         result = 31 * result + (memo != null ? memo.hashCode() : 0);
         return result;
     }

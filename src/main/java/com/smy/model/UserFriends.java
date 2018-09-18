@@ -2,7 +2,7 @@ package com.smy.model;
 /**
  * @Description: java类作用描述
  * @Author: lwt
- * @CreateDate: 2018/9/4
+ * @CreateDate: 2018/9/17
  * @Version: 1.0
  */
 
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  *@auther:Administrator
- *@Date:2018/9/4
+ *@Date:2018/9/17
  *@descriotion:
  */
 @Entity
@@ -29,6 +29,7 @@ public class UserFriends implements Serializable {
     private Integer hideMe;
     private Integer hideHer;
     private Integer isBlacklist;
+    private Integer idDel;
     private String memo;
 
     @Id
@@ -143,6 +144,16 @@ public class UserFriends implements Serializable {
     }
 
     @Basic
+    @Column(name = "id_del")
+    public Integer getIdDel() {
+        return idDel;
+    }
+
+    public void setIdDel(Integer idDel) {
+        this.idDel = idDel;
+    }
+
+    @Basic
     @Column(name = "memo")
     public String getMemo() {
         return memo;
@@ -170,6 +181,7 @@ public class UserFriends implements Serializable {
         if (hideMe != null ? !hideMe.equals(that.hideMe) : that.hideMe != null) return false;
         if (hideHer != null ? !hideHer.equals(that.hideHer) : that.hideHer != null) return false;
         if (isBlacklist != null ? !isBlacklist.equals(that.isBlacklist) : that.isBlacklist != null) return false;
+        if (idDel != null ? !idDel.equals(that.idDel) : that.idDel != null) return false;
         if (memo != null ? !memo.equals(that.memo) : that.memo != null) return false;
 
         return true;
@@ -188,6 +200,7 @@ public class UserFriends implements Serializable {
         result = 31 * result + (hideMe != null ? hideMe.hashCode() : 0);
         result = 31 * result + (hideHer != null ? hideHer.hashCode() : 0);
         result = 31 * result + (isBlacklist != null ? isBlacklist.hashCode() : 0);
+        result = 31 * result + (idDel != null ? idDel.hashCode() : 0);
         result = 31 * result + (memo != null ? memo.hashCode() : 0);
         return result;
     }

@@ -2,7 +2,7 @@ package com.smy.model;
 /**
  * @Description: java类作用描述
  * @Author: lwt
- * @CreateDate: 2018/9/4
+ * @CreateDate: 2018/9/17
  * @Version: 1.0
  */
 
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  *@auther:Administrator
- *@Date:2018/9/4
+ *@Date:2018/9/17
  *@descriotion:
  */
 @Entity
@@ -28,6 +28,7 @@ public class UserDynMsg implements Serializable {
     private Integer goodNum;
     private Integer commNum;
     private Integer forwardNum;
+    private Integer idDel;
     private String memo;
     private Integer isStrange;
     private Integer isForward;
@@ -136,6 +137,16 @@ public class UserDynMsg implements Serializable {
     }
 
     @Basic
+    @Column(name = "id_del")
+    public Integer getIdDel() {
+        return idDel;
+    }
+
+    public void setIdDel(Integer idDel) {
+        this.idDel = idDel;
+    }
+
+    @Basic
     @Column(name = "memo")
     public String getMemo() {
         return memo;
@@ -202,6 +213,7 @@ public class UserDynMsg implements Serializable {
         if (goodNum != null ? !goodNum.equals(that.goodNum) : that.goodNum != null) return false;
         if (commNum != null ? !commNum.equals(that.commNum) : that.commNum != null) return false;
         if (forwardNum != null ? !forwardNum.equals(that.forwardNum) : that.forwardNum != null) return false;
+        if (idDel != null ? !idDel.equals(that.idDel) : that.idDel != null) return false;
         if (memo != null ? !memo.equals(that.memo) : that.memo != null) return false;
         if (isStrange != null ? !isStrange.equals(that.isStrange) : that.isStrange != null) return false;
         if (isForward != null ? !isForward.equals(that.isForward) : that.isForward != null) return false;
@@ -223,6 +235,7 @@ public class UserDynMsg implements Serializable {
         result = 31 * result + (goodNum != null ? goodNum.hashCode() : 0);
         result = 31 * result + (commNum != null ? commNum.hashCode() : 0);
         result = 31 * result + (forwardNum != null ? forwardNum.hashCode() : 0);
+        result = 31 * result + (idDel != null ? idDel.hashCode() : 0);
         result = 31 * result + (memo != null ? memo.hashCode() : 0);
         result = 31 * result + (isStrange != null ? isStrange.hashCode() : 0);
         result = 31 * result + (isForward != null ? isForward.hashCode() : 0);

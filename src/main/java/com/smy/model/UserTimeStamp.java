@@ -2,7 +2,7 @@ package com.smy.model;
 /**
  * @Description: java类作用描述
  * @Author: lwt
- * @CreateDate: 2018/9/4
+ * @CreateDate: 2018/9/17
  * @Version: 1.0
  */
 
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  *@auther:Administrator
- *@Date:2018/9/4
+ *@Date:2018/9/17
  *@descriotion:
  */
 @Entity
@@ -22,6 +22,7 @@ public class UserTimeStamp implements Serializable {
     private Long userId;
     private Long udmsgId;
     private Integer isMine;
+    private Integer idDel;
     private Timestamp createTime;
 
     @Id
@@ -66,6 +67,16 @@ public class UserTimeStamp implements Serializable {
     }
 
     @Basic
+    @Column(name = "id_del")
+    public Integer getIdDel() {
+        return idDel;
+    }
+
+    public void setIdDel(Integer idDel) {
+        this.idDel = idDel;
+    }
+
+    @Basic
     @Column(name = "create_time")
     public Timestamp getCreateTime() {
         return createTime;
@@ -86,6 +97,7 @@ public class UserTimeStamp implements Serializable {
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (udmsgId != null ? !udmsgId.equals(that.udmsgId) : that.udmsgId != null) return false;
         if (isMine != null ? !isMine.equals(that.isMine) : that.isMine != null) return false;
+        if (idDel != null ? !idDel.equals(that.idDel) : that.idDel != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
 
         return true;
@@ -97,6 +109,7 @@ public class UserTimeStamp implements Serializable {
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (udmsgId != null ? udmsgId.hashCode() : 0);
         result = 31 * result + (isMine != null ? isMine.hashCode() : 0);
+        result = 31 * result + (idDel != null ? idDel.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         return result;
     }

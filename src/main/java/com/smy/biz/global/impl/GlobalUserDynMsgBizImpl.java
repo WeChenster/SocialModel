@@ -8,6 +8,7 @@ package com.smy.biz.global.impl;
 
 import com.smy.biz.global.GlobalUserDynMsgBiz;
 import com.smy.model.UserDynMsg;
+import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,13 @@ public class GlobalUserDynMsgBizImpl implements GlobalUserDynMsgBiz {
     public boolean updateColumnValue(String column_value, long udmsg_id) {
         String sql="update user_dyn_msg set ? where id=?";
         Object[] par={column_value,udmsg_id};
+        return dao.updObjectBySQL(sql,par);
+    }
+
+    @Override
+    public boolean deleteLineById(long msg_id) {
+        String sql="update user_dyn_msg set id_del=? where id=?";
+        Object[] par ={Dto.ALL_TRUE,msg_id};
         return dao.updObjectBySQL(sql,par);
     }
 }

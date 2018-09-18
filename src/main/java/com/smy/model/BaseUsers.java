@@ -2,7 +2,7 @@ package com.smy.model;
 /**
  * @Description: java类作用描述
  * @Author: lwt
- * @CreateDate: 2018/9/4
+ * @CreateDate: 2018/9/17
  * @Version: 1.0
  */
 
@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- *@auther:Administrator1
- *@Date:2018/9/4
+ *@auther:Administrator
+ *@Date:2018/9/17
  *@descriotion:
  */
 @Entity
@@ -21,6 +21,7 @@ public class BaseUsers implements Serializable {
     private long id;
     private String chanAdd;
     private Timestamp createTime;
+    private Integer idDel;
     private String memo;
 
     @Id
@@ -55,6 +56,16 @@ public class BaseUsers implements Serializable {
     }
 
     @Basic
+    @Column(name = "id_del")
+    public Integer getIdDel() {
+        return idDel;
+    }
+
+    public void setIdDel(Integer idDel) {
+        this.idDel = idDel;
+    }
+
+    @Basic
     @Column(name = "memo")
     public String getMemo() {
         return memo;
@@ -74,6 +85,7 @@ public class BaseUsers implements Serializable {
         if (id != baseUsers.id) return false;
         if (chanAdd != null ? !chanAdd.equals(baseUsers.chanAdd) : baseUsers.chanAdd != null) return false;
         if (createTime != null ? !createTime.equals(baseUsers.createTime) : baseUsers.createTime != null) return false;
+        if (idDel != null ? !idDel.equals(baseUsers.idDel) : baseUsers.idDel != null) return false;
         if (memo != null ? !memo.equals(baseUsers.memo) : baseUsers.memo != null) return false;
 
         return true;
@@ -84,6 +96,7 @@ public class BaseUsers implements Serializable {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (chanAdd != null ? chanAdd.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (idDel != null ? idDel.hashCode() : 0);
         result = 31 * result + (memo != null ? memo.hashCode() : 0);
         return result;
     }

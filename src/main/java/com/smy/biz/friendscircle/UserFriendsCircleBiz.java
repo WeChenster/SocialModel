@@ -13,9 +13,9 @@ import net.sf.json.JSONObject;
 public interface UserFriendsCircleBiz {
 
     /**
-      * @Description:  发布动态
-      * @Pramers:      userDynMsg
-      * @return:       返回类型
+     * @Description:  发布动态
+     * @Pramers:      userDynMsg
+     * @return:       返回类型
      */
     public Long insertUserDynamicMessage(UserDynMsg userDynMsg);
 
