@@ -7,11 +7,10 @@ package com.smy.biz.global.impl;
  */
 
 import com.smy.biz.global.GlobalUserFriendsBiz;
-import com.smy.model.UserFriends;
 import com.zhuoan.dto.Dto;
-import com.zhuoan.ssh.bean.PageUtil;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,16 +27,30 @@ public class GlobalGlobalUserFriendsBizImpl implements GlobalUserFriendsBiz {
     @Resource
     SSHUtilDao dao;
     @Override
-    public JSONArray getUserFriendsByUserId(long user_id) {
-        String sql="select rec_user as id from user_friends where user_id=? and id_del=?";
+    public JSONObject getUserFriendsByUserId(long user_id, int now_page) {
+        int size=50;
+        JSONObject obj=new JSONObject();
+        String sql="select $ from user_friends where user_id=? and id_del=?";
+        String countsql=sql.replace("$","count(id)");
+        String listsql=sql.replace("$","id,rec_user,friend_memo");
         Object[] par ={user_id, Dto.ALL_FALSE};
-        JSONArray array=JSONArray.fromObject(dao.getObjectListBySQL(sql,par,new PageUtil()));
-        return array;
+        int total=dao.getCount(countsql,par);
+        JSONArray array=JSONArray.fromObject(dao.getObjectListBySQL(listsql,par,now_page,size));
+        //TODO：遍历数组将rec_user 变成昵称头像
+
+        obj.put("total",total);
+        obj.put("size",size);
+        obj.put("page",now_page);
+        obj.put("array",array);
+
+        return obj;
     }
 
     @Override
-    public UserFriends getUserFriendsById(long ufd_id) {
-        UserFriends ufd= (UserFriends)dao.getObjectById(UserFriends.class,ufd_id);
-        return ufd;
+    public JSONObject getUserFriendsById(long ufd_id) {
+        String sql="select id,create_time,friend_memo,top,msg_not,backg,hide_me,hide_her,is_blacklist from user_friends where id=? and id_del=?";
+        Object[] par ={ufd_id,Dto.ALL_FALSE};
+        JSONObject obj=JSONObject.fromObject(dao.getObjectBySQL(sql,par));
+        return obj;
     }
 }

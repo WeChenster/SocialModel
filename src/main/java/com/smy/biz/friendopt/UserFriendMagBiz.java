@@ -16,7 +16,7 @@ public interface UserFriendMagBiz {
       * @Pramers:      传入参数
       * @return:       返回类型
      */
-    public boolean addNewFriends(UserAgree userAgree);
+    public Long addNewFriends(UserAgree userAgree);
 
     /**
       * @Description:  同意操作

@@ -15,6 +15,6 @@ public interface UserRegisterBiz {
       * @Pramers:      传入参数
       * @return:       返回类型
      */
-    public boolean addUserForRegister(BaseUsers baseUsers);
+    public Long addUserForRegister(BaseUsers baseUsers);
 
 }

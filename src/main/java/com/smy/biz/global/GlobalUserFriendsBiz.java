@@ -1,7 +1,6 @@
 package com.smy.biz.global;
 
-import com.smy.model.UserFriends;
-import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * @Description: 好友关系表单表操作
@@ -16,7 +15,7 @@ public interface GlobalUserFriendsBiz {
       * @Pramers:      传入参数
       * @return:       返回类型
      */
-    public JSONArray getUserFriendsByUserId(long user_id);
+    public JSONObject getUserFriendsByUserId(long user_id,int now_page);
 
 
     /**
@@ -24,5 +23,5 @@ public interface GlobalUserFriendsBiz {
       * @Pramers:      传入参数
       * @return:       返回类型
      */
-    public UserFriends getUserFriendsById(long ufd_id);
+    public JSONObject getUserFriendsById(long ufd_id);
 }

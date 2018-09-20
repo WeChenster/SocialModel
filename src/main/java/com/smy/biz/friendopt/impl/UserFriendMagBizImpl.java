@@ -32,19 +32,10 @@ public class UserFriendMagBizImpl implements UserFriendMagBiz {
 
 
     @Override
-    public boolean addNewFriends(UserAgree userAgree) {
-        //查询好友是否存在
-        JSONObject effo=base_users.getUserByIdOrChainAdd(String.valueOf(userAgree.getUserId()));
-        if(!effo.isNullObject()&&effo.containsKey("id")&&!effo.getString("id").equals("null")){
-            Long MsgId=(Long)dao.saveObject(userAgree);
-
-            //TODO:客户点发送消息到被添加的用户,发消息给user_id
-            if(MsgId!=null)
-                return  true;
-            else
-                return false;
-        }else
-            return false;
+    public Long addNewFriends(UserAgree userAgree) {
+        Long MsgId=(Long)dao.saveObject(userAgree);
+        //TODO:客户点发送消息到被添加的用户,发消息给user_id
+        return MsgId;
     }
 
     @Override

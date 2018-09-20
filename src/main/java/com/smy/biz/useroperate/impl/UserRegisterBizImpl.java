@@ -21,11 +21,8 @@ public class UserRegisterBizImpl implements UserRegisterBiz {
     SSHUtilDao dao;
 
     @Override
-    public boolean addUserForRegister(BaseUsers baseUsers) {
-        Object obj= dao.saveAsObject(BaseUsers.class,baseUsers);
-        if(obj!=null)
-            return true;
-        else
-            return false;
+    public Long addUserForRegister(BaseUsers baseUsers) {
+        Long obj= (Long)dao.saveObject(baseUsers);
+        return obj;
     }
 }

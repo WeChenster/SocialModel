@@ -5,7 +5,6 @@ import com.smy.model.UserFriends;
 import com.zhuoan.dto.Dto;
 import com.zhuoan.ssh.dao.SSHUtilDao;
 import com.zhuoan.util.DateUtils;
-import com.zhuoan.util.TimeUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -31,13 +30,22 @@ public class GlobalUserAgreeBizImpl implements GlobalUserAgreeBiz {
     public JSONObject getUserApplyList(long user_id, int now_page) {
         JSONObject obj=new JSONObject();
         int size=15;
-        String sql="select id,user_id,src_id,reason,create_time,friend_from,type from user_agree where user_id=? and id_del=?";
+        String sql="select $ from user_agree where user_id=? and id_del=?";
         Object[] par ={user_id,Dto.ALL_FALSE};
 
-        JSONArray array =JSONArray.fromObject(dao.getObjectListBySQL(sql,par,now_page,size));
-        obj.element("code", Dto.ALL_TRUE)
-                .element("msg", "获取成功")
-                .element("data", array.size()>0?TimeUtil.transTimestamp(array, "create_time", "yyyy-MM-dd HH:mm:ss"):array);
+        String countsql=sql.replace("$","count(id)");
+        String listsql=sql.replace("$"," id,user_id,src_id,reason,create_time,friend_from,type ");
+
+        int total=dao.getCount(countsql,par);
+        JSONArray array =JSONArray.fromObject(dao.getObjectListBySQL(listsql,par,now_page,size));
+        for (int i = 0; i < array.size(); i++) {
+
+        }
+
+        obj.element("total", total)
+                .element("size", size)
+                .element("page", now_page)
+                .element("array",array);
         return obj;
     }
 
